@@ -23,7 +23,17 @@ control and predictability.
 
 ## Getting Started
 
-Python 3.10 or higher is required.
+### Prerequisites
+
+* Python 3.10 or higher is required.
+* Provider API keys:
+  - Anthropic (for Claude models)  
+  - Google (for Gemini models)
+  - OpenAI (for OpenAI models)
+
+Library dependencies are listed in the `requirements.txt` file.
+
+### Setup environment
 
 1. Create a virtual environment:
 
@@ -43,13 +53,28 @@ Python 3.10 or higher is required.
    pip install -r requirements.txt
    ```
 
-## Configuration
+### Configuration API Keys
 
-OpenAI API key and Anthropic API key are required to run the examples. You
-can put them in your shell configuration file (e.g. `~/.zshrc` or `~/.bashrc`):
+Provider API Keys are required to run the examples. You can put them in your shell configuration
+file (e.g. `~/.zshrc` or `~/.bashrc`):
 
 ```bash
 export ANTHROPIC_API_KEY="your-anthropic-api-key"
 export GEMINI_API_KEY="your-gemini-api-key"
 export OPENAI_API_KEY="your-openai-api-key"
 ```
+
+## Available Patterns
+
+### Chaining Pattern
+
+Sequential task decomposition
+
+* Anthropic implementation: [chaining/chaining_anthropic.py](chaining/chaining_anthropic.py)
+* OpenAI implementation: [chaining/chaining_openai.py](chaining/chaining_openai.py)
+
+### Routing Pattern
+
+Intelligent request routing
+
+* Google ADK implementation: [routing/routing_adk.py](routing/routing_adk.py)
