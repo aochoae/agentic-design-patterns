@@ -49,6 +49,7 @@ OpenAI API key and Anthropic API key are required to run the examples. You
 can put them in your shell configuration file (e.g. `~/.zshrc` or `~/.bashrc`):
 
 ```bash
-export OPENAI_API_KEY="your-openai-api-key"
 export ANTHROPIC_API_KEY="your-anthropic-api-key"
+export GEMINI_API_KEY="your-gemini-api-key"
+export OPENAI_API_KEY="your-openai-api-key"
 ```
