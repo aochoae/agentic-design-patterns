@@ -27,9 +27,9 @@ control and predictability.
 
 * Python 3.10 or higher is required.
 * Provider API keys:
-  - Anthropic (for Claude models)  
-  - Google (for Gemini models)
-  - OpenAI (for OpenAI models)
+  - Anthropic
+  - Google
+  - OpenAI
 
 Library dependencies are listed in the `requirements.txt` file.
 
@@ -60,7 +60,7 @@ file (e.g. `~/.zshrc` or `~/.bashrc`):
 
 ```bash
 export ANTHROPIC_API_KEY="your-anthropic-api-key"
-export GEMINI_API_KEY="your-gemini-api-key"
+export GOOGLE_API_KEY="your-google-api-key"
 export OPENAI_API_KEY="your-openai-api-key"
 ```
 
