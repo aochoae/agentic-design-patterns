@@ -78,3 +78,9 @@ Sequential task decomposition
 Intelligent request routing
 
 * Google ADK implementation: [routing/routing_adk.py](routing/routing_adk.py)
+
+### Parallelization Pattern
+
+Concurrent task execution
+
+* Google ADK implementation: [parallelization/parallelization_adk.py](parallelization/parallelization_adk.py)
