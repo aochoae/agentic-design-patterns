@@ -5,7 +5,6 @@
 # Sentiment Agent
 
 import asyncio
-import nest_asyncio
 import uuid
 
 from google.adk.agents import LlmAgent, ParallelAgent, SequentialAgent
@@ -170,5 +169,4 @@ async def main():
 
 
 if __name__ == "__main__":
-    nest_asyncio.apply()
     asyncio.run(main())
