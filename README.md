@@ -84,3 +84,9 @@ Intelligent request routing
 Concurrent task execution
 
 * Google ADK implementation: [parallelization/parallelization_adk.py](parallelization/parallelization_adk.py)
+
+### Reflection Pattern
+
+Self-evaluation and improvement
+
+* Google ADK implementation: [reflection/reflection_adk.py](reflection/reflection_adk.py)
