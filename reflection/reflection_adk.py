@@ -7,10 +7,12 @@
 # - AcademicWriter (reflected): Revises the draft based on feedback
 
 import asyncio
+from pathlib import Path
 import nest_asyncio
 import uuid
 
-from google.adk.agents import SequentialAgent, LlmAgent
+from google.adk import Workflow
+from google.adk.agents import LlmAgent
 from google.adk.runners import InMemoryRunner
 from google.genai import types
 
@@ -163,9 +165,9 @@ expert_editor = LlmAgent(
 
 
 # Pipeline that connects the agents in sequence: the output of one agent feeds into the next.
-review_pipeline = SequentialAgent(
+review_pipeline = Workflow(
     name="WriteAndReview_Pipeline",
-    sub_agents=[academic_writer, literary_evaluator, expert_editor]
+    edges=[("START", academic_writer, literary_evaluator, expert_editor)]
 )
 
 
@@ -186,26 +188,30 @@ async def write_essay(runner: InMemoryRunner, inquiry: str):
 
     try:
 
-        async for event in runner.run_async(
-                user_id=user_id,
-                session_id=session_id,
-                new_message=types.Content(
-                    role='user',
-                    parts=[types.Part(text=inquiry)]
-                ),
-        ):
-            if event.is_final_response() and event.content:
-                if getattr(event.content, 'text', None):
-                    result = event.content.text
-                elif getattr(event.content, 'parts', None):
-                    parts = []
-                    for part in event.content.parts:
-                        if getattr(part, 'text', None):
-                            parts.append(part.text)
-                        elif getattr(part, 'function_call', None):
-                            parts.append(f"[{part.function_call.name}]")
-                    result = "".join(parts)
-                break
+        stream = runner.run_async(
+            user_id=user_id,
+            session_id=session_id,
+            new_message=types.Content(
+                role='user',
+                parts=[types.Part(text=inquiry)]
+            ),
+        )
+
+        try:
+            async for event in stream:
+                if event.is_final_response() and event.content:
+                    if getattr(event.content, 'text', None):
+                        result = event.content.text
+                    elif getattr(event.content, 'parts', None):
+                        parts = []
+                        for part in event.content.parts:
+                            if getattr(part, 'text', None):
+                                parts.append(part.text)
+                            elif getattr(part, 'function_call', None):
+                                parts.append(f"[{part.function_call.name}]")
+                        result = "".join(parts)
+        finally:
+            await stream.aclose()
 
         print(f"The coordinator has resolved the user's inquiry: {result}")
         return result
@@ -218,7 +224,8 @@ async def main():
     runner = InMemoryRunner(review_pipeline)
 
     # The Metamorphosis by Franz Kafka
-    with open("The_Metamorphosis.txt") as f:
+    filename = Path(__file__).parent / "The_Metamorphosis.txt"
+    with open(filename, "r", encoding="utf-8") as f:
         await write_essay(runner, f.read())
 
 

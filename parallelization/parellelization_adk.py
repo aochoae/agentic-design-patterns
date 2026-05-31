@@ -7,8 +7,10 @@
 import asyncio
 import uuid
 
-from google.adk.agents import LlmAgent, ParallelAgent, SequentialAgent
+from google.adk import Workflow
+from google.adk.agents import LlmAgent
 from google.adk.runners import InMemoryRunner
+from google.adk.workflow import JoinNode
 from google.genai import types
 
 
@@ -56,15 +58,6 @@ sentiment_agent = LlmAgent(
     description="Determine whether the review is positive, negative, or neutral.",
 )
 
-
-# Parallel Agent
-parallel_analysis = ParallelAgent(
-    name="ParallelReviewAnalysis",
-    sub_agents=[food_critic_agent, value_money_agent, sentiment_agent],
-    description="Run the analysis agents in parallel on a review.",
-)
-
-
 # Synthesis Agent
 synthesis_agent = LlmAgent(
     name="SynthesisAgent",
@@ -84,10 +77,18 @@ synthesis_agent = LlmAgent(
 )
 
 
-root_agent = SequentialAgent(
-    name="ReviewAnalysisPipeline",
-    sub_agents=[parallel_analysis, synthesis_agent],
-    description="First, run the analyses in parallel; then synthesize the results.",
+# Parallel Agent
+join_node = JoinNode(name="join_node")
+
+root_workflow = Workflow(
+    name="ParallelReviewAnalysis",
+    edges=[
+        ("START", food_critic_agent, join_node),
+        ("START", value_money_agent, join_node),
+        ("START", sentiment_agent, join_node),
+        (join_node, synthesis_agent),
+    ],
+    description="Run the analysis agents in parallel on a review.",
 )
 
 
@@ -131,7 +132,7 @@ async def analyze_review(runner: InMemoryRunner, review: str):
 async def main():
     print("Initializing the Review Analysis Pipeline...\n")
 
-    runner = InMemoryRunner(root_agent)
+    runner = InMemoryRunner(root_workflow)
 
     review_positive = """
         The experience at La Mesa Central was excellent from start to finish. The dishes are very well executed, with
