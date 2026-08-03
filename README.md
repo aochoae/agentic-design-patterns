@@ -64,29 +64,13 @@ export GOOGLE_API_KEY="your-google-api-key"
 export OPENAI_API_KEY="your-openai-api-key"
 ```
 
-## Available Patterns
+## Canonical Patterns
 
-### Chaining Pattern
+Canonical Agentic Design Patterns describe the control logic, orchestration, and workflow. The communication structure
+is a direct consequence of that architecture.
 
-Sequential task decomposition
-
-* Anthropic implementation: [chaining/chaining_anthropic.py](chaining/chaining_anthropic.py)
-* OpenAI implementation: [chaining/chaining_openai.py](chaining/chaining_openai.py)
-
-### Routing Pattern
-
-Intelligent request routing
-
-* Google ADK implementation: [routing/routing_adk.py](routing/routing_adk.py)
-
-### Parallelization Pattern
-
-Concurrent task execution
-
-* Google ADK implementation: [parallelization/parallelization_adk.py](parallelization/parallelization_adk.py)
-
-### Reflection Pattern
-
-Self-evaluation and improvement
-
-* Google ADK implementation: [reflection/reflection_adk.py](reflection/reflection_adk.py)
+* Chaining Pattern
+* Routing Pattern
+* Parallelization Pattern
+* Reflection Pattern
+* Tool Use Pattern
