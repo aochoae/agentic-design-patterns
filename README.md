@@ -72,5 +72,6 @@ is a direct consequence of that architecture.
 * Chaining Pattern
 * Routing Pattern
 * Parallelization Pattern
+* Planning Pattern
 * Reflection Pattern
 * Tool Use Pattern
